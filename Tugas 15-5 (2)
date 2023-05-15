@@ -1,0 +1,122 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+struct mahasiswa{
+    string nama;
+    float nilai_uts{};
+    float nilai_uas{};
+    float nilai_akhir{};
+    char huruf_mutu{};
+};
+
+
+void input_data(int n, mahasiswa array_of_mahasiswa[])
+{
+    for (int i = 0; i < n; i++) {
+        cout << "Mahasiswa Ke - " << i + 1 << endl;
+        cout << "Nama Mahasiswa : ";cin.ignore();getline(cin, array_of_mahasiswa[i].nama);
+        if (array_of_mahasiswa[i].nama.size() > 18) {
+            cout << "Nama terlalu panjang, akan dipotong sampai 18 karakter" << endl;
+            array_of_mahasiswa[i].nama = array_of_mahasiswa[i].nama.substr(0, 18);
+        }
+        cout << "Nilai UTS : ";cin >> array_of_mahasiswa[i].nilai_uts;
+        if (array_of_mahasiswa[i].nilai_uts < 0 || array_of_mahasiswa[i].nilai_uts > 100 || cin.fail()) {
+            while (getchar() != '\n');
+            cin.clear();
+            cout << "Nilai UTS tidak valid dan akan diisi 0" << endl;
+            array_of_mahasiswa[i].nilai_uts = 0;
+        }
+        cout << "Nilai UAS : ";cin >> array_of_mahasiswa[i].nilai_uas;
+        if (array_of_mahasiswa[i].nilai_uas < 0 || array_of_mahasiswa[i].nilai_uas > 100 || cin.fail()) {
+            while (getchar() != '\n');
+            cin.clear();
+            cout << "Nilai UAS tidak valid dan akan diisi 0" << endl;
+            array_of_mahasiswa[i].nilai_uas = 0;
+        }
+        cout << endl;
+
+        array_of_mahasiswa[i].nilai_akhir = float(0.6) * array_of_mahasiswa[i].nilai_uts + float(0.4) * array_of_mahasiswa[i].nilai_uas;
+        if (array_of_mahasiswa[i].nilai_akhir >= 80)
+                 array_of_mahasiswa[i].huruf_mutu = 'A';
+        else if (array_of_mahasiswa[i].nilai_akhir >= 70)
+                 array_of_mahasiswa[i].huruf_mutu = 'B';
+        else if (array_of_mahasiswa[i].nilai_akhir >= 56)
+                 array_of_mahasiswa[i].huruf_mutu = 'C';
+        else if (array_of_mahasiswa[i].nilai_akhir >= 47)
+                 array_of_mahasiswa[i].huruf_mutu = 'D';
+        else if (array_of_mahasiswa[i].nilai_akhir < 47)
+                 array_of_mahasiswa[i].huruf_mutu = 'E';
+
+    }
+    system("pause");
+    system("cls");
+}
+
+
+void banyak_data(int &n)
+{
+    cout << "Masukkan Jumlah Mahasiswa : ";cin >> n;
+    cout << endl;
+}
+
+
+void output_hasil(int n, mahasiswa array_of_mahasiswa[])
+{
+    cout << "Daftar Nilai Mata Kuliah C++" << endl;
+    cout << "---------------------------------------------------------------------" << endl;
+    cout << "No     Nama                UTS     UAS     Nilai Akhir     Huruf Mutu" << endl;
+    cout << "---------------------------------------------------------------------" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << setiosflags(ios::left) << setw(7) << i + 1;
+        cout << setiosflags(ios::left) << setw(19) << array_of_mahasiswa[i].nama;
+        cout << " " << setiosflags(ios::left) << setw(7) << array_of_mahasiswa[i].nilai_uts;
+        cout << " " << setiosflags(ios::left) << setw(10) << array_of_mahasiswa[i].nilai_uas;
+        cout << " " << setiosflags(ios::left) << setw(16) << array_of_mahasiswa[i].nilai_akhir;
+        cout<<" "<<setiosflags(ios::left)<<setw(6)<<array_of_mahasiswa[i].huruf_mutu;
+        cout<<endl;
+    }
+}
+
+
+void sort_data(int n, mahasiswa array_of_mahasiswa[])
+{
+    for (int i = 1; i < n; i++) {
+        for (int j = i; j >= 1; j--){
+            if (array_of_mahasiswa[j].nilai_akhir < array_of_mahasiswa[j-1].nilai_akhir) {
+                swap(array_of_mahasiswa[j], array_of_mahasiswa[j-1]);
+            }
+            else
+                break;
+        }
+    }
+}
+
+
+int main(){
+    int n = 0;
+
+    do {
+        cout << "========================================" << endl;
+        cout << "PROGRAM MENGHITUNG NILAI MATA KULIAH C++" << endl;
+        cout << "========================================" << endl << endl;
+        banyak_data(n);
+
+        if (n <= 0) {
+            cin.clear();
+            while (getchar() != '\n');
+            cout << "Input tidak valid. Silakan coba lagi" << endl;
+            system("pause");
+            system("cls");
+        }
+    } while (n <= 0);
+
+    mahasiswa array_of_mahasiswa[n];
+
+    input_data(n, array_of_mahasiswa);
+    sort_data(n, array_of_mahasiswa);
+    output_hasil(n, array_of_mahasiswa);
+
+    return 0;
+}
