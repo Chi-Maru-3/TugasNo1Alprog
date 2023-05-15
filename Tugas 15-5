@@ -9,11 +9,7 @@ struct pegawai{
     int golongan;
 };
 
-struct gaji{
-    float nilai_uts{};
-    float nilai_uas{};
-    float nilai_akhir{};
-};
+
 
 void banyak_data(int &n)
 {
@@ -93,23 +89,10 @@ void sorting(int n, pegawai array_of_pegawai[])
     }
 }
 
-void cari_gaji(larik a, int n, int kunci, int& found, int& lokasi){
-	int left = 0, right = n-1;
-	found =  0;
-	while (!found && left <= right) {
-		lokasi = (left + right) / 2;
-		if (a[lokasi] == kunci){
-			found = 1;
-		}
-		else
-			if (a[lokasi] < kunci){
-				left = lokasi + 1;
-			}
-			else {
-				right = lokasi - 1;
-
-			}
-	}
+void cari_gaji()
+{
+	
+	
 }
 
 int main(){
